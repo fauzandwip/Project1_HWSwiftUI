@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    let tipPercentages = [5, 10, 15, 20, 25, 0]
+//    let tipPercentages = [5, 10, 15, 20, 25, 0]
+    var currency: FloatingPointFormatStyle<Double>.Currency = .currency(code: Locale.current.currency?.identifier ?? "USD")
     
     @State private var checkAmount = 0.0
     @State private var numberOfPeople = 2
@@ -39,7 +40,7 @@ struct ContentView: View {
         NavigationStack {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    TextField("Amount", value: $checkAmount, format: currency)
                         .keyboardType(.decimalPad)
                         .focused($isAmountFocused)
                     
@@ -48,28 +49,27 @@ struct ContentView: View {
                             Text("\($0) people")
                         }
                     }
-                    .pickerStyle(.navigationLink)
                 }
                 
                 Section {
                     Picker("Tip percentage", selection: $tipPercentage) {
-                        ForEach(tipPercentages, id: \.self) {
+                        ForEach(0..<101, id: \.self) {
                             Text($0, format: .percent)
                         }
                     }
-                    .pickerStyle(.segmented)
+                    .pickerStyle(.navigationLink)
                 } header: {
                     Text("How much tip do you want to leave?")
                 }
                 
                 Section {
-                    Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Text(totalPerPerson, format: currency)
                 } header: {
                     Text("Amount per person")
                 }
                 
                 Section {
-                    Text(totalAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Text(totalAmount, format: currency)
                 } header: {
                     Text("Total amount")
                 }
