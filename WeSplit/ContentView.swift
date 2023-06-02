@@ -39,6 +39,8 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Form {
+                
+                // amount and number of people
                 Section {
                     TextField("Amount", value: $checkAmount, format: currency)
                         .keyboardType(.decimalPad)
@@ -51,6 +53,7 @@ struct ContentView: View {
                     }
                 }
                 
+                // tip percentage
                 Section {
                     Picker("Tip percentage", selection: $tipPercentage) {
                         ForEach(0..<101, id: \.self) {
@@ -62,14 +65,17 @@ struct ContentView: View {
                     Text("How much tip do you want to leave?")
                 }
                 
+                // amount per person
                 Section {
                     Text(totalPerPerson, format: currency)
                 } header: {
                     Text("Amount per person")
                 }
                 
+                // total amount
                 Section {
                     Text(totalAmount, format: currency)
+                        .foregroundColor(tipPercentage == 0 ? .red : .primary)
                 } header: {
                     Text("Total amount")
                 }
